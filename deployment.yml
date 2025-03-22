@@ -1,0 +1,53 @@
+kind: Deployment
+apiVersion: apps/v1
+
+metadata:
+  name: myapiapp
+  annotations:
+    kubernetes.io/change-cause: "Updating docker image from V1 to V2"
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: myapiapp
+  template:
+    metadata:
+      name: myapiapp
+      labels:
+        env: prod
+        app: myapiapp
+        api.kuberneted.io/name: myapiapp
+    spec:
+      containers:
+        - name: myapiapp
+          image: ravigampawar/myapiapp:v2
+          ports:
+            - containerPort: 80
+              name: http-web-api
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 200m
+              memory: 200Mi
+          env:
+            - name: ASPNETCORE_URLS
+              value: http://+:80
+
+---
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: myapiapp-svc
+spec:
+  selector:
+    api.kuberneted.io/name: myapiapp
+  ports:
+    - name: myapiapp-port
+      protocol: TCP
+      port: 8080
+      targetPort: 80
+  type: LoadBalancer
