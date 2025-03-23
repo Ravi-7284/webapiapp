@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: myapiapp-ingress
+  namespace: myapiapp-ns
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+
+spec:
+  rules:
+  - http:
+      paths:
+      - pathType: Prefix
+        path: /myapiapp
+        backend:
+          service:
+            name: myapiapp-svc
+            port:
+              number: 8080

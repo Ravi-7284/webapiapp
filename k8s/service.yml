@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+
+metadata:
+  name: myapiapp-svc
+  namespace: myapiapp-ns
+
+spec: 
+  selector:
+    app: myapiapp
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      

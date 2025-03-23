@@ -10,7 +10,10 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(c=>{
+    c.SwaggerEndpoint("/myapiapp/swagger/v1/swagger.json", "My API V1");
+    c.RoutePrefix = "myapiapp/swagger"; // serve swagger UI at /myapiapp/swagger
+});
 
 app.UseAuthorization();
 

@@ -1,0 +1,27 @@
+kind: Deployment
+apiVersion: apps/v1
+
+metadata:
+  name: myapiapp-deployment
+  namespace: myapiapp-ns
+  labels:
+    app: myapiapp
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: myapiapp
+
+  template:
+    metadata:
+      name: myapiapp-pod
+      namespace: myapiapp-ns
+      labels:
+        app: myapiapp
+    spec:
+      containers:
+      - name: myapiapp-container
+        image: ravigampawar/myapiapp:v1
+        ports:
+          - containerPort: 8080
